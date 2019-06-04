@@ -1,0 +1,17 @@
+image: docker
+services:
+  - docker:dind 
+stages:
+  - build
+  - deploy
+build:
+  stage: build
+  script:
+    - echo "Building..."
+    - apk add --no-cache py-pip python-dev libffi-dev openssl-dev gcc libc-dev make
+    - pip install docker-compose
+    - docker-compose build --no-cache
+deploy:
+  stage: deploy
+  script:
+    - orchestrator --access-key $ACCESS_KEY --secret-key $SECRET_KEY docker-compose.yml

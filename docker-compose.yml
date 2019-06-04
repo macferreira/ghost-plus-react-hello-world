@@ -1,0 +1,16 @@
+version: '3'
+services:
+  blog:
+    image: ghost:latest
+    container_name: blog
+  app:
+    build: ./devops/app
+    container_name: app
+  reverse-proxy:
+    build: ./devops/reverse-proxy
+    ports:
+      - "443:443"
+    container_name: reverse_proxy
+    environment:
+      HTTP_AUTH_LOGIN: ${HTTP_AUTH_LOGIN}
+      HTTP_AUTH_PASSWORD: ${HTTP_AUTH_PASSWORD}
